@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI Quest — Conductor Dashboard</title>
+<link rel="stylesheet" href="/css/main.css"/>
+<link rel="stylesheet" href="/css/admin.css"/>
+</head>
+<body>
+<canvas id="star-canvas"></canvas>
+<div id="confetti-container"></div>
+
+<header class="admin-header">
+  <div class="container flex-between">
+    <div class="nav-logo"><span>🤖</span><span class="text-gradient">AI Quest</span> <span class="conductor-tag">Conductor</span></div>
+    <div style="display:flex;gap:12px;align-items:center">
+      <button class="btn btn-secondary btn-sm" onclick="loadData()">🔄 Refresh</button>
+      <button class="btn btn-secondary btn-sm" onclick="exportCSV()">📥 Export CSV</button>
+      <button class="btn btn-sm" style="background:rgba(244,63,94,0.15);border:1px solid rgba(244,63,94,0.4);color:#f43f5e" onclick="restartScoreboard()">🔁 Restart Scoreboard</button>
+      <button class="btn btn-secondary btn-sm" onclick="adminLogout()">Logout</button>
+    </div>
+  </div>
+</header>
+
+<main class="admin-main page-enter">
+  <div class="container">
+
+    <!-- Stats Cards -->
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card card"><div class="sc-icon">👥</div><div class="sc-val" id="st-total">—</div><div class="sc-label">Registered</div></div>
+      <div class="stat-card card"><div class="sc-icon">▶️</div><div class="sc-val" id="st-started">—</div><div class="sc-label">Started</div></div>
+      <div class="stat-card card"><div class="sc-icon">✅</div><div class="sc-val" id="st-completed">—</div><div class="sc-label">Completed</div></div>
+      <div class="stat-card card"><div class="sc-icon">⏳</div><div class="sc-val" id="st-pending">—</div><div class="sc-label">Not Started</div></div>
+      <div class="stat-card card"><div class="sc-icon">⭐</div><div class="sc-val" id="st-avg">—</div><div class="sc-label">Avg Score</div></div>
+      <div class="stat-card card"><div class="sc-icon">🏆</div><div class="sc-val" id="st-high">—</div><div class="sc-label">Highest Score</div></div>
+      <div class="stat-card card"><div class="sc-icon">⚡</div><div class="sc-val" id="st-fast">—</div><div class="sc-label">Fastest Time</div></div>
+    </div>
+
+    <!-- Podium -->
+    <div id="podium-section" style="display:none">
+      <h2 class="section-title" style="margin-bottom:32px">🏆 Winner Podium</h2>
+      <div class="podium" id="podium"></div>
+    </div>
+
+    <!-- Leaderboard -->
+    <div class="leaderboard-section">
+      <div class="flex-between" style="margin-bottom:20px;flex-wrap:wrap;gap:12px">
+        <h2 class="section-title" style="margin-bottom:0">📊 Leaderboard</h2>
+        <input class="form-input" id="search-input" placeholder="🔍 Search participant..." style="max-width:250px;padding:9px 14px;font-size:0.9rem" oninput="filterTable()"/>
+      </div>
+      <div id="lb-empty" style="text-align:center;padding:48px;color:var(--text-muted);display:none">
+        <div style="font-size:3rem;margin-bottom:12px">📭</div>
+        <p>No completed attempts yet. Leaderboard will appear here once participants submit their quiz.</p>
+      </div>
+      <div class="table-wrap" id="table-wrap">
+        <table class="lb-table" id="lb-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Participant</th>
+              <th>Email</th>
+              <th>Easy</th>
+              <th>Medium</th>
+              <th>Hard</th>
+              <th>Total</th>
+              <th>Time</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="lb-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- All Participants -->
+    <div class="leaderboard-section" style="margin-top:40px">
+      <h2 class="section-title" style="margin-bottom:20px">👥 All Participants</h2>
+      <div class="table-wrap">
+        <table class="lb-table">
+          <thead>
+            <tr>
+              <th>#</th><th>Name</th><th>Email</th><th>Status</th><th>Score</th><th>Time</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="all-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- Detailed Participant Modal -->
+<div class="modal-overlay" id="details-modal">
+  <div class="modal details-modal">
+    <div class="modal-header">
+      <h2 id="modal-title">Participant Details</h2>
+      <button class="modal-close" onclick="closeDetailsModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-content">
+      <!-- Content will be populated by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- Restart Scoreboard Confirmation Modal -->
+<div class="modal-overlay" id="restart-modal" style="display:none">
+  <div class="modal" style="max-width:480px;text-align:center">
+    <div style="font-size:3rem;margin-bottom:16px">⚠️</div>
+    <h2 style="margin-bottom:12px;color:#f43f5e">Restart Scoreboard?</h2>
+    <p style="color:var(--text-secondary);line-height:1.6;margin-bottom:24px">
+      This will reset the current competition scoreboard.<br/>
+      <strong style="color:var(--text-primary)">Previous competition results and active quiz progress will be permanently cleared.</strong><br/><br/>
+      ✅ Participant accounts will be kept.<br/>
+      ✅ Admin account will be kept.<br/>
+      ✅ Question bank will be kept.
+    </p>
+    <div style="display:flex;gap:12px;justify-content:center">
+      <button class="btn btn-secondary" onclick="cancelRestart()">✕ Cancel</button>
+      <button class="btn" id="confirm-restart-btn" style="background:linear-gradient(135deg,#f43f5e,#dc2626);color:#fff" onclick="confirmRestart()">🔁 Yes, Restart Scoreboard</button>
+    </div>
+  </div>
+</div>
+
+<!-- Remove Participant Confirmation Modal -->
+<div class="modal-overlay" id="remove-modal" style="display:none">
+  <div class="modal" style="max-width:480px;text-align:center">
+    <div style="font-size:3rem;margin-bottom:16px">👤❌</div>
+    <h2 style="margin-bottom:12px;color:#f43f5e">Remove Participant?</h2>
+    <p style="color:var(--text-secondary);line-height:1.6;margin-bottom:24px">
+      Are you sure you want to remove <strong id="remove-target-name" style="color:var(--text-primary)">this participant</strong>?<br/>
+      This will remove their competition participation data.
+    </p>
+    <div style="display:flex;gap:12px;justify-content:center">
+      <button class="btn btn-secondary" onclick="cancelRemoveParticipant()">Cancel</button>
+      <button class="btn" id="confirm-remove-btn" style="background:linear-gradient(135deg,#f43f5e,#dc2626);color:#fff" onclick="executeRemoveParticipant()">Remove Participant</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/admin.js"></script>
+</body>
+</html>

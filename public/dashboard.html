@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI Quest — Dashboard</title>
+<link rel="stylesheet" href="/css/main.css"/>
+<link rel="stylesheet" href="/css/dashboard.css"/>
+</head>
+<body>
+<canvas id="star-canvas"></canvas>
+
+<header class="db-header">
+  <div class="container flex-between">
+    <div class="nav-logo">
+      <span>🤖</span>
+      <span class="text-gradient">AI Quest</span>
+    </div>
+    <div class="db-header-right">
+      <span id="db-user-name" class="user-chip">👤 —</span>
+      <button class="btn btn-secondary btn-sm" onclick="logout()">Logout</button>
+    </div>
+  </div>
+</header>
+
+<main class="db-main page-enter">
+  <div class="container">
+
+    <!-- Welcome -->
+    <div class="welcome-section">
+      <h1>Welcome back, <span id="welcome-name" class="text-gradient">Champion</span>! 🎉</h1>
+      <p id="db-status-msg" class="welcome-sub">Ready to test your AI & Computer Science knowledge?</p>
+    </div>
+
+    <!-- Already completed banner -->
+    <div id="completed-banner" class="completed-banner" style="display:none">
+      <span>🏆</span>
+      <div>
+        <strong>Quiz Completed!</strong>
+        <p>Your results have been recorded. The leaderboard will be announced by the conductor.</p>
+      </div>
+      <a href="/result.html" class="btn btn-primary btn-sm">View My Result</a>
+    </div>
+
+    <!-- Round Cards -->
+    <div class="round-cards">
+      <div class="db-round-card easy-card">
+        <div class="rc-top">
+          <span class="rc-emoji">🟢</span>
+          <span class="badge badge-easy">EASY</span>
+        </div>
+        <h3>Round 1</h3>
+        <div class="rc-stats">
+          <div><span>10</span> Questions</div>
+          <div><span>×1</span> Mark each</div>
+          <div><span>10</span> Max marks</div>
+        </div>
+        <p class="rc-topics">AI basics · Hardware · Internet · OS concepts</p>
+      </div>
+      <div class="db-round-card medium-card">
+        <div class="rc-top">
+          <span class="rc-emoji">🟡</span>
+          <span class="badge badge-medium">MEDIUM</span>
+        </div>
+        <h3>Round 2</h3>
+        <div class="rc-stats">
+          <div><span>10</span> Questions</div>
+          <div><span>×2</span> Marks each</div>
+          <div><span>20</span> Max marks</div>
+        </div>
+        <p class="rc-topics">ML · Networking · Cybersecurity · Algorithms</p>
+      </div>
+      <div class="db-round-card hard-card">
+        <div class="rc-top">
+          <span class="rc-emoji">🔴</span>
+          <span class="badge badge-hard">HARD</span>
+        </div>
+        <h3>Round 3</h3>
+        <div class="rc-stats">
+          <div><span>5</span> Questions</div>
+          <div><span>×4</span> Marks each</div>
+          <div><span>20</span> Max marks</div>
+        </div>
+        <p class="rc-topics">Neural Networks · NLP · Deep Learning · AI Ethics</p>
+      </div>
+    </div>
+
+    <!-- Total score banner -->
+    <div class="total-banner">
+      <span>🎯 Total: <strong>25 Questions</strong></span>
+      <span>⭐ Max Score: <strong>50 Marks</strong></span>
+      <span>✅ <strong>No Negative Marking</strong></span>
+    </div>
+
+    <!-- How to Play -->
+    <div class="how-to-play card">
+      <h2>📖 How to Play</h2>
+      <div class="htp-grid">
+        <div class="htp-step"><div class="step-num">1</div><p>Click <strong>Start Quiz</strong> — your timer begins at that exact moment.</p></div>
+        <div class="htp-step"><div class="step-num">2</div><p>Answer 10 Easy questions, then 10 Medium, then 5 Hard.</p></div>
+        <div class="htp-step"><div class="step-num">3</div><p>Navigate freely between questions. Change answers before submitting each round.</p></div>
+        <div class="htp-step"><div class="step-num">4</div><p>Submit your quiz when done. Your final score is calculated instantly.</p></div>
+      </div>
+    </div>
+
+    <!-- Start Button -->
+    <div class="start-section" id="start-section">
+      <button class="btn btn-primary start-btn" id="start-btn" onclick="startQuiz()">
+        🚀 Start Quiz
+      </button>
+      <p class="start-note">⏱️ Your timer will start the moment you click this button</p>
+    </div>
+
+  </div>
+</main>
+
+<!-- Confirm modal -->
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal">
+    <div style="font-size:3rem;margin-bottom:16px">🚀</div>
+    <h3 style="font-size:1.4rem;margin-bottom:10px">Ready to begin?</h3>
+    <p style="color:var(--text-secondary);margin-bottom:24px">Your timer starts now. Complete all 25 questions across 3 rounds. Good luck!</p>
+    <div style="display:flex;gap:12px;justify-content:center">
+      <button class="btn btn-secondary" onclick="closeModal()">Not yet</button>
+      <button class="btn btn-primary" id="confirm-start-btn" onclick="confirmStart()">Yes, Start! 🎯</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI Quest — Register / Login</title>
+<meta name="description" content="Register or log in to AI Quest to participate in the AI and Computer Science quiz competition."/>
+<link rel="stylesheet" href="/css/main.css"/>
+<link rel="stylesheet" href="/css/auth.css"/>
+</head>
+<body>
+<canvas id="star-canvas"></canvas>
+<div class="auth-page page-enter">
+  <div class="auth-brand">
+    <a href="/" class="brand-link">
+      <span>🤖</span>
+      <span class="text-gradient">AI Quest</span>
+    </a>
+  </div>
+
+  <div class="auth-container">
+    <!-- Tabs -->
+    <div class="auth-tabs">
+      <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">Login</button>
+      <button class="tab-btn" id="tab-register" onclick="switchTab('register')">Register</button>
+    </div>
+
+    <!-- Login Form -->
+    <div id="form-login">
+      <h2 class="auth-title">Welcome Back! 👋</h2>
+      <p class="auth-sub">Log in to continue your quiz journey</p>
+      <div id="login-alert"></div>
+      <form id="login-form" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="login-email">Email Address</label>
+          <input id="login-email" class="form-input" type="email" placeholder="you@example.com" required autocomplete="email"/>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input id="login-password" class="form-input" type="password" placeholder="Enter your password" required autocomplete="current-password"/>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;" id="login-btn">
+          🚀 Login
+        </button>
+      </form>
+      <p class="auth-switch">Don't have an account? <button class="link-btn" onclick="switchTab('register')">Register here</button></p>
+    </div>
+
+    <!-- Register Form -->
+    <div id="form-register" style="display:none">
+      <h2 class="auth-title">Join AI Quest! 🎮</h2>
+      <p class="auth-sub">Create your account to start competing</p>
+      <div id="register-alert"></div>
+      <form id="register-form" onsubmit="handleRegister(event)">
+        <div class="form-group">
+          <label for="reg-name">Full Name</label>
+          <input id="reg-name" class="form-input" type="text" placeholder="Your full name" required autocomplete="name"/>
+        </div>
+        <div class="form-group">
+          <label for="reg-email">Email Address</label>
+          <input id="reg-email" class="form-input" type="email" placeholder="you@example.com" required autocomplete="email"/>
+        </div>
+        <div class="form-group">
+          <label for="reg-password">Password <small>(min 6 characters)</small></label>
+          <input id="reg-password" class="form-input" type="password" placeholder="Create a password" required autocomplete="new-password" minlength="6"/>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;" id="reg-btn">
+          ✨ Create Account
+        </button>
+      </form>
+      <p class="auth-switch">Already have an account? <button class="link-btn" onclick="switchTab('login')">Login here</button></p>
+    </div>
+  </div>
+
+  <div class="auth-info">
+    <div class="info-pill">🎯 25 Questions</div>
+    <div class="info-pill">⭐ 50 Max Points</div>
+    <div class="info-pill">✅ No Negative Marking</div>
+  </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+</body>
+</html>

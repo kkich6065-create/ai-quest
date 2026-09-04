@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI Quest — The Ultimate AI & Computer Quiz Challenge</title>
+<meta name="description" content="AI Quest: A gamified school-level AI and Computer Science quiz competition. Three rounds, 25 questions, 50 marks. Register and compete!"/>
+<link rel="stylesheet" href="/css/main.css"/>
+<link rel="stylesheet" href="/css/landing.css"/>
+</head>
+<body>
+<canvas id="star-canvas"></canvas>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="container flex-between">
+    <div class="nav-logo">
+      <span class="logo-icon">🤖</span>
+      <span class="text-gradient">AI Quest</span>
+    </div>
+    <div class="nav-actions">
+      <a href="/admin-login.html" class="btn btn-secondary btn-sm">Conductor Login</a>
+      <a href="/login.html" class="btn btn-primary btn-sm" id="nav-cta">Register / Login</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow hero-glow-1"></div>
+  <div class="hero-glow hero-glow-2"></div>
+  <div class="container hero-content page-enter">
+    <div class="hero-badge">🏆 Inter-School Competition 2024</div>
+    <h1 class="hero-title">
+      <span class="text-gradient">AI QUEST</span>
+    </h1>
+    <p class="hero-subtitle">The Ultimate AI & Computer Quiz Challenge</p>
+    <p class="hero-desc">Think. Explore. Challenge Yourself. Become the AI Champion!</p>
+    <div class="hero-stats">
+      <div class="stat-pill">🎯 25 Questions</div>
+      <div class="stat-pill">⭐ 50 Max Points</div>
+      <div class="stat-pill">✅ Zero Negative Marking</div>
+      <div class="stat-pill">🏅 3 Exciting Rounds</div>
+    </div>
+    <div class="hero-btns">
+      <a href="/login.html" class="btn btn-primary btn-lg">🚀 Join the Challenge</a>
+      <a href="#rules" class="btn btn-secondary btn-lg">📋 View Rules</a>
+    </div>
+    <div class="floating-icons">
+      <span class="fi" style="--d:0s;--x:10%;--y:30%">🤖</span>
+      <span class="fi" style="--d:1.2s;--x:85%;--y:20%">🧠</span>
+      <span class="fi" style="--d:0.5s;--x:5%;--y:70%">💻</span>
+      <span class="fi" style="--d:1.8s;--x:90%;--y:65%">🚀</span>
+      <span class="fi" style="--d:0.9s;--x:50%;--y:10%">⭐</span>
+      <span class="fi" style="--d:2.1s;--x:75%;--y:80%">⚡</span>
+    </div>
+  </div>
+</section>
+
+<!-- ROUND CARDS -->
+<section class="rounds-section">
+  <div class="container">
+    <h2 class="section-title">Three Rounds of Challenge</h2>
+    <p class="section-sub">Progress through easy to hard — prove you're the ultimate AI champion!</p>
+    <div class="rounds-grid">
+      <div class="round-card round-easy">
+        <div class="round-icon">🟢</div>
+        <h3>Round 1</h3>
+        <div class="round-label">EASY</div>
+        <ul>
+          <li>10 Questions</li>
+          <li>1 Mark per Correct Answer</li>
+          <li>AI & Computer Basics</li>
+          <li>Max: <strong>10 Marks</strong></li>
+        </ul>
+      </div>
+      <div class="round-card round-medium">
+        <div class="round-icon">🟡</div>
+        <h3>Round 2</h3>
+        <div class="round-label">MEDIUM</div>
+        <ul>
+          <li>10 Questions</li>
+          <li>2 Marks per Correct Answer</li>
+          <li>Intermediate Concepts</li>
+          <li>Max: <strong>20 Marks</strong></li>
+        </ul>
+      </div>
+      <div class="round-card round-hard">
+        <div class="round-icon">🔴</div>
+        <h3>Round 3</h3>
+        <div class="round-label">HARD</div>
+        <ul>
+          <li>5 Questions</li>
+          <li>4 Marks per Correct Answer</li>
+          <li>Advanced AI & CS Topics</li>
+          <li>Max: <strong>20 Marks</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RULES -->
+<section class="rules-section" id="rules">
+  <div class="container">
+    <h2 class="section-title">Competition Rules</h2>
+    <div class="rules-grid">
+      <div class="rule-card card">
+        <div class="rule-icon">⏱️</div>
+        <h4>Timer</h4>
+        <p>Your timer starts only when you click <strong>Start Quiz</strong> — not at login.</p>
+      </div>
+      <div class="rule-card card">
+        <div class="rule-icon">🔀</div>
+        <h4>Randomized</h4>
+        <p>Questions and answer options are randomly assigned to each participant.</p>
+      </div>
+      <div class="rule-card card">
+        <div class="rule-icon">➡️</div>
+        <h4>Navigation</h4>
+        <p>You can move between questions and change answers within a round before submitting.</p>
+      </div>
+      <div class="rule-card card">
+        <div class="rule-icon">🚫</div>
+        <h4>No Negative Marking</h4>
+        <p>Wrong or unanswered questions give 0 marks — no penalties!</p>
+      </div>
+      <div class="rule-card card">
+        <div class="rule-icon">🏆</div>
+        <h4>Ranking</h4>
+        <p>Higher score = higher rank. Ties broken by faster completion time.</p>
+      </div>
+      <div class="rule-card card">
+        <div class="rule-icon">🔒</div>
+        <h4>One Attempt</h4>
+        <p>Each participant gets one attempt. Once submitted, your answers are locked.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <p>🤖 <span class="text-gradient">AI Quest</span> — The Ultimate School AI & Computer Quiz Competition</p>
+    <p style="margin-top:8px; color:var(--text-muted); font-size:0.85rem;">The final leaderboard will be announced by the competition conductor.</p>
+  </div>
+</footer>
+
+<script src="/js/api.js"></script>
+<script>
+  initStars();
+  // Redirect if already logged in
+  const token = getToken();
+  const user = getUser();
+  if (token && user) {
+    if (user.role === 'admin') window.location.href = '/admin.html';
+    else {
+      document.getElementById('nav-cta').textContent = 'My Dashboard';
+      document.getElementById('nav-cta').href = '/dashboard.html';
+    }
+  }
+</script>
+</body>
+</html>
