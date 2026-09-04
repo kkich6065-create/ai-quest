@@ -28,54 +28,51 @@ function nextId(table) {
 
   if (id == null || typeof id !== 'number' || isNaN(id)) {
     const existing = db.get(table).value() || [];
-
     const maxId = existing.reduce(
       (max, item) => Math.max(max, item.id || 0),
       0
     );
-
     id = maxId + 1;
   }
 
   db.set(`_nextIds.${table}`, id + 1).write();
-
   return id;
 }
 
 // ─── Seed / Update Admin ──────────────────────────────────────────────────────
 function seedAdmin() {
-  const email = process.env.ADMIN_EMAIL || 'admin@aiquest.com';
-  const password = process.env.ADMIN_PASSWORD || 'Admin@123';
+  db.read();
 
-  const existing = db.get('admins').find({ email }).value();
+  const rawEmail = process.env.ADMIN_EMAIL || 'admin@aiquest.com';
+  const email = String(rawEmail).toLowerCase().trim();
 
-  // Create new admin if it doesn't exist
+  const rawPassword = process.env.ADMIN_PASSWORD || 'Admin@123';
+  // Clean up any surrounding quotes or extra spaces from env vars
+  const password = String(rawPassword).replace(/^["']|["']$/g, '').trim();
+
+  const hash = bcrypt.hashSync(password, 12);
+
+  const admins = db.get('admins').value() || [];
+  const existing = admins.find(a => a.email && String(a.email).toLowerCase().trim() === email);
+
   if (!existing) {
-    const hash = bcrypt.hashSync(password, 12);
-
+    const newAdmin = {
+      id: nextId('admins'),
+      email: email,
+      password_hash: hash
+    };
+    db.get('admins').push(newAdmin).write();
+    console.log(`✅ Admin seeded: ${email}`);
+  } else {
     db.get('admins')
-      .push({
-        id: nextId('admins'),
-        email,
+      .find(a => a.email && String(a.email).toLowerCase().trim() === email)
+      .assign({
+        email: email,
         password_hash: hash
       })
       .write();
-
-    console.log(`✅ Admin seeded: ${email}`);
-    return;
+    console.log(`✅ Admin password updated: ${email}`);
   }
-
-  // Update existing admin password from environment variable
-  const hash = bcrypt.hashSync(password, 12);
-
-  db.get('admins')
-    .find({ email })
-    .assign({
-      password_hash: hash
-    })
-    .write();
-
-  console.log(`✅ Admin password updated: ${email}`);
 }
 
 seedAdmin();

@@ -52,8 +52,8 @@
     btn.disabled = true; btn.textContent = '⏳ Verifying...';
     try {
       const data = await apiRequest('POST', '/auth/admin/login', {
-        email: document.getElementById('admin-email').value,
-        password: document.getElementById('admin-password').value
+        email: document.getElementById('admin-email').value.trim(),
+        password: document.getElementById('admin-password').value.trim()
       }, false);
       setToken(data.token);
       setUser({ ...data.user, role: 'admin' });
